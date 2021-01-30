@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="uFrogio.Views.MainPage"
+             xmlns:vm="clr-namespace:uFrogio.ViewModels"
+             xmlns:local="clr-namespace:uFrogio.Views"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <RelativeLayout>
+        <!--<ScrollView VerticalScrollBarVisibility="Never"  TranslationY="100" TranslationX="200" WidthRequest="100" HeightRequest="100" Scrolled="OnScrollViewScrolled">
+            <StackLayout HeightRequest="1000">
+            </StackLayout>
+        </ScrollView>-->
+
+        <!--<video:VideoPlayer x:Name="videoPlayer" />-->
+        <!--RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Property=Height, Constant=600}"-->
+        <StackLayout x:Name="stacks" TranslationX="0" TranslationY="170"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+            BackgroundColor="Orange">
+
+            <Image Source="Today.png" HorizontalOptions="Start" />
+            <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
+                <CollectionView BackgroundColor="Bisque" x:Name="todayCollectionView"
+                 HeightRequest="0"
+                ItemsSource="{Binding TodayTasks}">
+                    <d:CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>First Item</x:String>
+                            <x:String>Second Item</x:String>
+                        </x:Array>
+                    </d:CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate >
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Text}" 
+                                d:Text="{Binding .}"
+                                LineBreakMode="NoWrap" 
+                                FontSize="16" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <Image Source="Tomorrow.png" HorizontalOptions="Start" />
+            <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadTomorrowItemsCommand}">
+                <CollectionView x:Name="tomorrowCollectionView"
+                                HeightRequest="0"
+                ItemsSource="{Binding TomorrowTasks}">
+                    <d:CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>First Item</x:String>
+                            <x:String>Second Item</x:String>
+                        </x:Array>
+                    </d:CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Description}" 
+                                d:Text="{Binding .}"
+                                LineBreakMode="NoWrap" 
+                                FontSize="16" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <Image Source="Week.png" HorizontalOptions="Start" />
+            <RefreshView VerticalOptions="Fill" IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadWeekItemsCommand}">
+                <CollectionView x:Name="weekCollectionView"                    
+                    BackgroundColor="Aqua"
+                ItemsSource="{Binding WeekTasks}">
+                    <d:CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>First Item</x:String>
+                            <x:String>Second Item</x:String>
+                        </x:Array>
+                    </d:CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Description}" 
+                                d:Text="{Binding .}"
+                                LineBreakMode="NoWrap" 
+                                FontSize="16" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <Image Source="Month.png" HorizontalOptions="Start" />
+            <RefreshView HeightRequest="100" IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
+                <CollectionView
+                ItemsSource="{Binding TodayTasks}">
+                    <d:CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>First Item</x:String>
+                            <x:String>Second Item</x:String>
+                        </x:Array>
+                    </d:CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Description}" 
+                                d:Text="{Binding .}"
+                                LineBreakMode="NoWrap" 
+                                FontSize="16" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+
+        <RelativeLayout InputTransparent="True" CascadeInputTransparent="False" BackgroundColor="DarkCyan" x:Name="Header" TranslationX="0" TranslationY="0" WidthRequest="500">
+            <!--<Image InputTransparent="True" HorizontalOptions="Fill" Source="MainBar.jpg" TranslationX="0" TranslationY="-350"/>-->
+            <local:CustomImage 
+                Diff="300" 
+                WidthRequest="75" 
+                Source="MainButton.png" 
+                TranslationX="170" 
+                TranslationY="70">
+            </local:CustomImage>
+
+            <RelativeLayout x:Name="CalendarPanel" TranslationX="40" TranslationY="-180"
+                            InputTransparent="True" CascadeInputTransparent="False">
+                <local:CustomImage
+                    BackgroundColor="red"
+                    x:Name="CalendarControl"
+                    Diff="300"                    
+                    HeightRequest="210"
+                    WidthRequest="350">
+                </local:CustomImage>
+
+                <Grid x:Name="calendar2"
+                      HeightRequest="210"
+                      WidthRequest="350">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="46"/>
+                        <ColumnDefinition Width="46"/>
+                        <ColumnDefinition Width="46"/>
+                        <ColumnDefinition Width="46"/>
+                        <ColumnDefinition Width="46"/>
+                        <ColumnDefinition Width="46"/>
+                        <ColumnDefinition Width="46"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0" Source="MonRus.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="1" Source="TueRus.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="2" Source="WedRus.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="3" Source="ThuRus.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="4" Source="FriRus.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="5" Source="SatRus.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="6" Source="SunRus.png"></Image>
+
+                    <Image Grid.Row="1" Grid.Column="0" Source="7.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="1" Source="6.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="2" Source="5.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="3" Source="4.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="4" Source="3.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="5" Source="2.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="6" Source="1.png"></Image>
+
+                    <Image Grid.Row="2" Grid.Column="0" Source="7.png"></Image>
+                    <Image Grid.Row="2" Grid.Column="1" Source="6.png"></Image>
+                    <Image Grid.Row="2" Grid.Column="2" Source="5.png"></Image>
+                    <Image Grid.Row="2" Grid.Column="3" Source="4.png"></Image>
+                    <Image Grid.Row="2" Grid.Column="4" Source="3.png"></Image>
+                    <Image Grid.Row="2" Grid.Column="5" Source="2.png"></Image>
+                    <Image Grid.Row="2" Grid.Column="6" Source="1.png"></Image>
+
+                    <Image Grid.Row="3" Grid.Column="0" Source="7.png"></Image>
+                    <Image Grid.Row="3" Grid.Column="1" Source="6.png"></Image>
+                    <Image Grid.Row="3" Grid.Column="2" Source="5.png"></Image>
+                    <Image Grid.Row="3" Grid.Column="3" Source="4.png"></Image>
+                    <Image Grid.Row="3" Grid.Column="4" Source="3.png"></Image>
+                    <Image Grid.Row="3" Grid.Column="5" Source="2.png"></Image>
+                    <Image Grid.Row="3" Grid.Column="6" Source="1.png"></Image>
+
+                    <Image Grid.Row="4" Grid.Column="0" Source="7.png"></Image>
+                    <Image Grid.Row="4" Grid.Column="1" Source="6.png"></Image>
+                    <Image Grid.Row="4" Grid.Column="2" Source="5.png"></Image>
+                    <Image Grid.Row="4" Grid.Column="3" Source="4.png"></Image>
+                    <Image Grid.Row="4" Grid.Column="4" Source="3.png"></Image>
+                    <Image Grid.Row="4" Grid.Column="5" Source="2.png"></Image>
+                    <Image Grid.Row="4" Grid.Column="6" Source="1.png"></Image>
+
+                    <Image Grid.Row="5" Grid.Column="0" Source="7.png"></Image>
+                    <Image Grid.Row="5" Grid.Column="1" Source="6.png"></Image>
+                </Grid>
+            </RelativeLayout>
+            
+            <!--<SwipeView>
+                <SwipeView.LeftItems>
+                    <SwipeItems SwipeBehaviorOnInvoked="Close">
+                        <SwipeItemView>
+                        </SwipeItemView>
+                    </SwipeItems>
+                </SwipeView.LeftItems>
+                --><!-- Content --><!--                
+            </SwipeView>-->
+
+            <Image x:Name="MenuButtonImage" Source="MenuButton.png" TranslationX="50" TranslationY="100" />
+
+            <Image x:Name="AddButtonImage" Source="AddButton.png" TranslationX="300" TranslationY="100">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                Tapped="OnAddTaskImageTapped"
+                NumberOfTapsRequired="1" />
+                </Image.GestureRecognizers>
+            </Image>
+        </RelativeLayout>
+
+        <RelativeLayout x:Name="AddLayout" TranslationY="620">
+            <RelativeLayout x:Name="NewEventPanel" InputTransparent="True" CascadeInputTransparent="False">
+                <Image InputTransparent="True" Source="new_event.png" Aspect="AspectFit" IsVisible="true" 
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+            Property=Y,
+            Constant=100
+            }" />
+
+                <!--<local:CustomImage
+                    x:Name="EventPanelControl"
+                    UpsideDown="true"
+                    Diff="300"
+                    TranslationY="285"
+                    HeightRequest="150"
+                    WidthRequest="210">
+                </local:CustomImage>-->
+
+                <StackLayout 
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=450}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
+                    <Editor x:Name="eventEdit" Focused="taskEdit_Focused" Completed="Entry1_TextChanged" HeightRequest="150" WidthRequest="300" HorizontalOptions="Center" Placeholder="New task.." />
+                </StackLayout>
+            </RelativeLayout>
+
+            <RelativeLayout x:Name="NewTaskPanel" InputTransparent="True" CascadeInputTransparent="False">
+                <Image InputTransparent="True" Source="new_task.png" Aspect="AspectFit" IsVisible="true" 
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+            Property=Y,
+            Constant=150
+            }"/>
+
+                <!--<local:CustomImage 
+                    x:Name="TaskPanelControl"
+                    UpsideDown="true"
+                    Diff="300"
+                    TranslationY="310"
+                    TranslationX="210"
+                    HeightRequest="120"
+                    WidthRequest="207">
+                </local:CustomImage>-->
+
+                <StackLayout 
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=450}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
+                    <Editor x:Name="taskEdit" Focused="taskEdit_Focused" Completed="Entry1_TextChanged" HeightRequest="150" WidthRequest="300" HorizontalOptions="Center" Placeholder="New task.." />
+                </StackLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</ContentPage>
